@@ -3,3 +3,8 @@
 *~
 *.iml
 .env
+
+#._.DS_Store from mac
+._.*
+
+/src/snarkvm
