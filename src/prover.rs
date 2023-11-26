@@ -23,6 +23,8 @@ use snarkvm_algorithms::crypto_hash::sha256d_to_u64;
 use tokio::{sync::mpsc, task};
 use tracing::{debug, error, info, warn};
 
+//use snarkvm_algorithms::polycommit::kzg10::{start_timer, end_timer};
+
 use crate::client::Client;
 
 pub struct Prover {
@@ -293,12 +295,16 @@ impl Prover {
                             let nonce = thread_rng().next_u64();
                             if let Ok(Ok(solution)) = task::spawn_blocking(move || {
                                 tp.install(|| {
+
+                                    //let msm_time = start_timer("coinbase_puzzle prove");
                                     coinbase_puzzle.prove(
                                         &epoch_challenge,
                                         address,
                                         nonce,
                                         Option::from(current_proof_target.load(Ordering::SeqCst)),
                                     )
+                                    //end_timer(msm_time, "")
+
                                 })
                             })
                             .await

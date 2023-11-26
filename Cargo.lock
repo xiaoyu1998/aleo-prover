@@ -74,6 +74,7 @@ dependencies = [
  "byteorder",
  "bytes",
  "clap 4.0.29",
+ "colored",
  "crossbeam",
  "futures",
  "futures-util",
@@ -2170,6 +2171,7 @@ version = "0.9.10"
 dependencies = [
  "aleo-std",
  "anyhow",
+ "colored",
  "crossbeam-channel",
  "hashbrown 0.13.1",
  "hex",
