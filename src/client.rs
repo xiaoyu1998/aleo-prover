@@ -6,7 +6,7 @@ use aleo_stratum::{
 };
 use futures_util::sink::SinkExt;
 use json_rpc_types::Id;
-use snarkvm::{console::account::address::Address, prelude::Testnet3};
+use snarkvm::{console::account::address::Address, console::network::Testnet3};
 use tokio::{
     net::TcpStream,
     sync::{

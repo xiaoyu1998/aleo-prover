@@ -16,8 +16,10 @@ use rand::{thread_rng, RngCore};
 use rayon::{ThreadPool, ThreadPoolBuilder};
 use snarkvm::{
     console::account::address::Address,
-    prelude::{CoinbasePuzzle, FromBytes, Testnet3, ToBytes},
-    synthesizer::{EpochChallenge, PuzzleConfig, UniversalSRS},
+    prelude::{FromBytes, ToBytes},
+    console::network::Testnet3,
+    synthesizer::snark::UniversalSRS,
+    ledger::coinbase::{CoinbasePuzzle, EpochChallenge, PuzzleConfig},
 };
 use snarkvm_algorithms::crypto_hash::sha256d_to_u64;
 use tokio::{sync::mpsc, task};
