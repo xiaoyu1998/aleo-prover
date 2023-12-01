@@ -8,7 +8,7 @@ use std::{net::ToSocketAddrs, sync::Arc};
 
 use clap::Parser;
 use snarkvm::{
-    console::account::address::Address,
+    console::types::Address,
     prelude::{PrivateKey, Testnet3, ViewKey},
 };
 use tracing::{debug, error, info};

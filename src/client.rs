@@ -6,7 +6,7 @@ use aleo_stratum::{
 };
 use futures_util::sink::SinkExt;
 use json_rpc_types::Id;
-use snarkvm::{console::account::address::Address, console::network::Testnet3};
+use snarkvm::{console::types::Address, console::network::Testnet3};
 use tokio::{
     net::TcpStream,
     sync::{
@@ -195,12 +195,18 @@ pub fn start(prover_sender: Arc<Sender<ProverEvent>>, client: Arc<Client>) {
                                                 }
                                             }
                                             StratumMessage::Notify(job_id, epoch_challenge, address, _) => {
+                                                // info!("Notify job_id{}", job_id);
+
                                                 let job_id_bytes = hex::decode(job_id).expect("Failed to decode job_id");
+                                                // info!("job_id_bytes {}", job_id_bytes[0]);
+
                                                 if job_id_bytes.len() != 4 {
                                                     error!("Unexpected job_id length: {}", job_id_bytes.len());
                                                     continue;
                                                 }
                                                 let epoch = u32::from_le_bytes(job_id_bytes[0..4].try_into().unwrap());
+                                                // info!("epoch {}", epoch);
+
                                                 if let Err(e) = prover_sender.send(ProverEvent::NewWork(epoch, epoch_challenge, address.unwrap_or_else(|| pool_address.clone().expect("No pool address defined")))).await {
                                                     error!("Error sending work to prover: {}", e);
                                                 } else {

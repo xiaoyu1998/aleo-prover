@@ -15,9 +15,8 @@ use json_rpc_types::Id;
 use rand::{thread_rng, RngCore};
 use rayon::{ThreadPool, ThreadPoolBuilder};
 use snarkvm::{
-    console::account::address::Address,
-    prelude::{FromBytes, ToBytes},
-    console::network::Testnet3,
+    console::types::Address,
+    prelude::{Testnet3, FromBytes, ToBytes},
     synthesizer::snark::UniversalSRS,
     ledger::coinbase::{CoinbasePuzzle, EpochChallenge, PuzzleConfig},
 };
@@ -25,7 +24,7 @@ use snarkvm_algorithms::crypto_hash::sha256d_to_u64;
 use tokio::{sync::mpsc, task};
 use tracing::{debug, error, info, warn};
 
-//use snarkvm_algorithms::polycommit::kzg10::{start_timer, end_timer};
+// use cactus_timer::{start_timer, end_timer};
 
 use crate::client::Client;
 
@@ -124,12 +123,16 @@ impl Prover {
                         p.new_target(target);
                     }
                     ProverEvent::NewWork(epoch_number, epoch_challenge, address) => {
+                        info!("epoch {} {} ", epoch_number, epoch_challenge);
+                        //let hex = hex::decode(epoch_challenge.as_bytes()).unwrap();
+                        let epoch_challenge = EpochChallenge::<Testnet3>::from_bytes_le(
+                                                        &*hex::decode(epoch_challenge.as_bytes()).unwrap(),
+                                                    ).unwrap();
+
+                        //info!("epoch2 {}", epoch_number);
                         p.new_work(
                             epoch_number,
-                            EpochChallenge::<Testnet3>::from_bytes_le(
-                                &*hex::decode(epoch_challenge.as_bytes()).unwrap(),
-                            )
-                            .unwrap(),
+                            epoch_challenge,
                             Address::<Testnet3>::from_str(&address).unwrap(),
                         )
                         .await;
@@ -298,14 +301,16 @@ impl Prover {
                             if let Ok(Ok(solution)) = task::spawn_blocking(move || {
                                 tp.install(|| {
 
-                                    //let msm_time = start_timer("coinbase_puzzle prove");
+                                    // let msm_time = start_timer("coinbase_puzzle prove");
+                                    // end_timer(&msm_time, "");
+
                                     coinbase_puzzle.prove(
                                         &epoch_challenge,
                                         address,
                                         nonce,
                                         Option::from(current_proof_target.load(Ordering::SeqCst)),
                                     )
-                                    //end_timer(msm_time, "")
+                                    
 
                                 })
                             })

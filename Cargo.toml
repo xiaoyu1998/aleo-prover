@@ -38,6 +38,10 @@ json-rpc-types = "1.2.0"
 hex = "0.4.3"
 colored = "2"
 
+[dependencies.sppark]
+#version = "0.1.5"
+path = "../sppark-rust"
+
 [dependencies.aleo-stratum]
 git = "https://github.com/HarukaMa/aleo-pool-server"
 branch = "testnet3-new"
@@ -55,6 +59,10 @@ features = [
     "sync",
     "net"
 ]
+[dependencies.cactus-timer]
+package = "cactus-timer"
+path = "../timer"
+version = "0.1.0"
 
 [dependencies.tokio-util]
 version = "0.7.4"
@@ -71,12 +79,6 @@ cuda = ["snarkvm/cuda"]
 opt-level = 1
 debug-assertions = false
 
-[profile.release]
-opt-level = 3
-debug = 1
-lto = true
-codegen-units = 1
-panic = "abort"
 
 [package.metadata.appimage]
 auto_link = true
