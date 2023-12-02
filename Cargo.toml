@@ -61,7 +61,7 @@ features = [
 ]
 [dependencies.cactus-timer]
 package = "cactus-timer"
-path = "../timer"
+path = "../cactus-timer"
 version = "0.1.0"
 
 [dependencies.tokio-util]
