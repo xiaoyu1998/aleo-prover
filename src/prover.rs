@@ -97,7 +97,7 @@ impl Prover {
         info!("Universal SRS initialized");
 
         info!("Initializing coinbase proving key");
-        let coinbase_puzzle = CoinbasePuzzle::<Testnet3>::trim(&srs, PuzzleConfig { degree: (1 << 9) - 1 })
+        let coinbase_puzzle = CoinbasePuzzle::<Testnet3>::trim(&srs, PuzzleConfig { degree: (1 << 10) - 1 })
             .expect("Failed to load coinbase proving key");
         info!("Coinbase proving key initialized");
 
